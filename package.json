@@ -1,0 +1,11 @@
+{
+  "name": "price-law-firm",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The Price Law Firm (Bill Price, PA) — Panama City, FL personal injury website",
+  "scripts": {
+    "build": "node build.js",
+    "serve": "node build.js && node serve.js"
+  }
+}
