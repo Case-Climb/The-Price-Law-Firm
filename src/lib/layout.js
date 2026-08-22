@@ -171,6 +171,8 @@ ${content}
 ${footer()}
 ${floatingWidgets()}
 <script src="/assets/js/site.js" defer></script>
+<!-- LeadConnector chat widget -->
+<script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a847bd5af859fb1da5d7dc5"></script>
 </body>
 </html>`;
 }

@@ -15,11 +15,12 @@ components stay defined in exactly one place.
 
 ## Before deploying
 
-1. **Wire up form delivery.** No backend is configured, so the `/contact` form
-   and the floating widget currently fall back to opening the visitor's mail
-   client. Set `data-endpoint` on the forms in `src/lib/components.js` to a real
-   handler (Formspree, Netlify Forms, or a serverless function). Until then the
-   phone number is the only reliable contact route.
+1. ~~**Wire up form delivery.**~~ Done — intake is now handled by two
+   third-party embeds instead of the old mailto fallback: the `/contact` form is
+   a CaseClimb (LeadConnector) inline form, and the floating chat bubble is the
+   LeadConnector chat widget. Both are defined in `src/lib/components.js` /
+   `src/lib/layout.js`. Submissions land in the LeadConnector account, not in
+   this repo — confirm the destination inbox and notification settings there.
 2. **Set the GA4 measurement ID.** `src/data/site.js` → `ga4Id` is still the
    placeholder `G-XXXXXXXXXX`, so no traffic is being recorded.
 

@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { icon } from './icons.js';
+import { videos } from '../data/video-content.js';
 import {
   site, DRAFT, unconfirmed, hours, practiceAreas, otherPracticeAreas, locations,
   additionalCities, activeBadges, testimonials,
@@ -69,6 +70,7 @@ export function header(current = '') {
             <li><a class="all-link" href="/sitemap">All Areas We Serve</a></li>
           </ul>
         </li>
+        <li class="nav-item"><a class="nav-link${isCur('/videos')}" href="/videos">Videos</a></li>
         <li class="nav-item"><a class="nav-link${isCur('/blog')}" href="/blog">Blog</a></li>
         <li class="nav-item"><a class="nav-link${isCur('/contact')}" href="/contact">Contact</a></li>
       </ul>
@@ -98,6 +100,7 @@ export function header(current = '') {
         <li><a href="/sitemap"><strong>All Areas We Serve</strong></a></li>
       </ul>
     </li>
+    <li><a href="/videos">Videos</a></li>
     <li><a href="/blog">Blog</a></li>
     <li><a href="/contact">Contact</a></li>
   </ul>
@@ -177,30 +180,57 @@ export function footer() {
 
 /* -------------------------------------------------------- floating widgets */
 export function floatingWidgets() {
-  return `<div class="chat-widget">
-  <div class="chat-panel" role="dialog" aria-label="Send a message to The Price Law Firm">
-    <div class="chat-head">
-      <div class="t">${esc(site.brand)}</div>
-      <div class="s"><span class="dot"></span> ${esc(site.attorneyShort)} replies personally</div>
-    </div>
-    <div class="chat-body">
-      <p class="intro">Tell us what happened and the best number to reach you. There is no cost and no obligation for an initial consultation.</p>
-      <form data-contact-form data-mailto="${site.email}" data-phone="${esc(site.phone)}">
-        <div class="field"><label for="w-name">Name</label><input id="w-name" name="name" type="text" autocomplete="name" required></div>
-        <div class="field"><label for="w-phone">Phone</label><input id="w-phone" name="phone" type="tel" autocomplete="tel" required></div>
-        <div class="field"><label for="w-message">Message</label><textarea id="w-message" name="message" rows="3"></textarea></div>
-        <button class="btn btn--primary" type="submit">Send Message</button>
-      </form>
-    </div>
-  </div>
-  <button class="chat-toggle" aria-label="Open contact form" aria-expanded="false">
-    <span class="open-ico">${icon('chat')}</span><span class="close-ico">${icon('close')}</span>
-  </button>
-</div>
-<div class="mobile-call-bar">
+  return `<div class="mobile-call-bar">
   <a class="btn btn--primary" href="${site.phoneHref}">${icon('phone')} Call Now</a>
   <a class="btn btn--outline" href="/contact">Free Consultation</a>
 </div>`;
+}
+
+/* -------------------------------------------------------------- videos */
+/**
+ * Click-to-play grid of vertical (9:16) Shorts.
+ *
+ * Cards render as a static thumbnail until clicked, then swap in a
+ * youtube-nocookie iframe. A live embed is ~700KB and sets tracking cookies
+ * on page load; this keeps the page fast and cookie-free until a visitor
+ * actually chooses to watch.
+ */
+export function videoGrid(list = videos) {
+  const cards = list
+    .map((v, i) => {
+      const label = v.title || `Video from ${site.brand}, ${i + 1} of ${list.length}`;
+      const caption = v.title ? `<p class="video-caption">${esc(v.title)}</p>` : '';
+      return `<li class="video-card">
+      <button class="video-facade" type="button" data-video-id="${esc(v.id)}" data-video-title="${esc(label)}" aria-label="Play video: ${esc(label)}">
+        <img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="480" height="360">
+        <span class="video-play" aria-hidden="true">${icon('play')}</span>
+      </button>${caption}
+    </li>`;
+    })
+    .join('\n    ');
+  return `<ul class="video-grid reveal">\n    ${cards}\n  </ul>`;
+}
+
+export function videoSection({
+  list = videos,
+  eyebrow = 'Video',
+  title = 'Legal Tips from Bill Price',
+  text,
+  gray = false,
+  limit,
+  more = false,
+} = {}) {
+  const shown = limit ? list.slice(0, limit) : list;
+  const moreLink = more
+    ? `<div class="btn-row" style="justify-content:center;margin-top:2.25rem"><a class="btn btn--outline" href="/videos">Watch all ${list.length} videos</a></div>`
+    : '';
+  return `<section class="section${gray ? ' section--gray' : ''}">
+  <div class="container">
+    ${sectionHead({ eyebrow, title, text })}
+    ${videoGrid(shown)}
+    ${moreLink}
+  </div>
+</section>`;
 }
 
 /* ------------------------------------------------------------ breadcrumbs */
@@ -484,18 +514,25 @@ export function findUs({ gray = false, note } = {}) {
 }
 
 /* --------------------------------------------------------------- contact form */
-export function contactForm({ compact = false } = {}) {
-  return `<form class="form-card reveal" data-contact-form data-mailto="${site.email}" data-phone="${esc(site.phone)}">
-    <div class="field"><label for="c-name">Full Name</label><input id="c-name" name="name" type="text" autocomplete="name" required></div>
-    <div class="field"><label for="c-phone">Phone Number</label><input id="c-phone" name="phone" type="tel" autocomplete="tel" required></div>
-    <div class="field"><label for="c-email">Email Address</label><input id="c-email" name="email" type="email" autocomplete="email"></div>
-    ${compact ? '' : `<div class="field"><label for="c-type">What happened?</label><select id="c-type" name="casetype">
-      <option value="">Select a case type (optional)</option>
-      ${practiceAreas.map((p) => `<option value="${esc(p.name)}">${esc(p.name)}</option>`).join('')}
-      <option value="Other">Something else</option>
-    </select></div>`}
-    <div class="field"><label for="c-message">Tell us about your case</label><textarea id="c-message" name="message" rows="5" placeholder="Where and when did it happen? Were you injured? Have you spoken to an insurance company?"></textarea></div>
-    <button class="btn btn--primary" type="submit">Send Message</button>
+export function contactForm() {
+  return `<div class="form-embed reveal">
+    <iframe
+      src="https://services.caseclimb.com/widget/form/zZUdrr0b8CtJ0L1FbI3K"
+      style="width:100%;height:100%;border:none;border-radius:10px"
+      id="inline-zZUdrr0b8CtJ0L1FbI3K"
+      data-layout="{'id':'INLINE'}"
+      data-trigger-type="alwaysShow"
+      data-trigger-value=""
+      data-activation-type="alwaysActivated"
+      data-activation-value=""
+      data-deactivation-type="neverDeactivate"
+      data-deactivation-value=""
+      data-form-name="Website Form (The Price Law Firm)"
+      data-height="540"
+      data-layout-iframe-id="inline-zZUdrr0b8CtJ0L1FbI3K"
+      data-form-id="zZUdrr0b8CtJ0L1FbI3K"
+      title="Website Form (The Price Law Firm)"></iframe>
+    <script src="https://services.caseclimb.com/js/form_embed.js"></script>
     <p class="form-note">Submitting this form does not create an attorney-client relationship, and the information you send is not confidential until we agree in writing to represent you. Please do not include sensitive details in your first message.</p>
-  </form>`;
+  </div>`;
 }
