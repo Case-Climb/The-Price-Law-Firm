@@ -194,7 +194,7 @@ body.has-hero .site-header:not(.solid) .logo svg .mark-bg { fill: rgba(255,255,2
 body.has-hero .site-header:not(.solid) .logo svg .mark-fg { fill: #fff; }
 
 .nav { display: flex; align-items: center; gap: 4px; margin-left: auto; }
-.nav > li { list-style: none; position: relative; margin: 0; }
+.nav-list > li { list-style: none; position: relative; margin: 0; }
 .nav-list { display: flex; align-items: center; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .nav-link {
   display: inline-flex; align-items: center; gap: .3rem;
@@ -560,36 +560,40 @@ body.nav-open { overflow: hidden; }
 .footer-bottom nav { display: flex; flex-wrap: wrap; gap: 1.5rem; }
 .footer-disclaimer { padding: 0 0 2rem; font-size: .8rem; line-height: 1.65; color: rgba(255,255,255,.5); max-width: 100%; }
 
-/* -------------------------------------------------------------- floating -- */
-.chat-widget { position: fixed; right: 22px; bottom: 22px; z-index: 90; }
-.chat-toggle {
-  width: 60px; height: 60px; border-radius: 50%; background: var(--accent); color: #fff; border: 0;
-  cursor: pointer; box-shadow: 0 8px 26px rgba(30,95,217,.44);
-  display: flex; align-items: center; justify-content: center; transition: transform .2s ease, background .2s ease;
+/* ---------------------------------------------------------------- videos -- */
+/* Vertical 9:16 Shorts. The YouTube thumbnail is 4:3 with the vertical frame
+   pillarboxed in the centre, so object-fit: cover crops the bars away and
+   leaves exactly the video area. */
+.video-grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
-.chat-toggle:hover { transform: scale(1.06); background: var(--accent-dark); }
-.chat-toggle svg { width: 26px; height: 26px; }
-.chat-toggle .close-ico { display: none; }
-.chat-widget.open .chat-toggle .open-ico { display: none; }
-.chat-widget.open .chat-toggle .close-ico { display: block; }
+.video-card { display: flex; flex-direction: column; }
+.video-facade {
+  position: relative; display: block; width: 100%; padding: 0; border: 1px solid var(--border);
+  aspect-ratio: 9 / 16; border-radius: var(--r-lg); overflow: hidden; cursor: pointer;
+  background: var(--navy); box-shadow: var(--shadow); transition: transform .2s ease, box-shadow .2s ease;
+}
+.video-facade:hover, .video-facade:focus-visible { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.video-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-play {
+  position: absolute; inset: 0; margin: auto; width: 62px; height: 62px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(18, 41, 77, .72); color: #fff; border-radius: 50%;
+  backdrop-filter: blur(2px); transition: background .2s ease, transform .2s ease;
+}
+.video-facade:hover .video-play { background: var(--accent); transform: scale(1.08); }
+.video-play svg { width: 30px; height: 30px; margin-left: 3px; }
+.video-card iframe {
+  width: 100%; aspect-ratio: 9 / 16; border: 0;
+  border-radius: var(--r-lg); box-shadow: var(--shadow-lg); display: block; background: #000;
+}
+.video-caption { margin-top: .8rem; font-size: .92rem; line-height: 1.5; font-weight: 600; color: var(--navy); }
 
-.chat-panel {
-  position: absolute; bottom: 74px; right: 0; width: min(360px, calc(100vw - 44px));
-  background: #fff; border-radius: var(--r-lg); box-shadow: var(--shadow-xl); border: 1px solid var(--border);
-  overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(12px) scale(.97);
-  transition: opacity .22s ease, transform .22s ease, visibility .22s;
-}
-.chat-widget.open .chat-panel { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-.chat-head { background: var(--navy); color: #fff; padding: 1.1rem 1.35rem; }
-.chat-head .t { font-family: var(--font-head); font-weight: 700; font-size: 1rem; }
-.chat-head .s { font-size: .82rem; color: rgba(255,255,255,.75); display: flex; align-items: center; gap: .4rem; margin-top: .2rem; }
-.chat-head .dot { width: 7px; height: 7px; border-radius: 50%; background: #4ADE80; display: inline-block; }
-.chat-body { padding: 1.25rem 1.35rem 1.5rem; }
-.chat-body .intro { font-size: .89rem; margin-bottom: 1.1rem; }
-.chat-body .field { margin-bottom: .8rem; }
-.chat-body .field input, .chat-body .field textarea { padding: .7rem .85rem; font-size: .93rem; }
-.chat-body .field textarea { min-height: 84px; }
-.chat-body .btn { width: 100%; }
+/* -------------------------------------------------------------- floating -- */
+.form-embed { min-height: 540px; }
+.form-embed iframe { display: block; width: 100%; min-height: 540px; }
 
 .mobile-call-bar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 88; display: none;
@@ -713,10 +717,11 @@ body.nav-open { overflow: hidden; }
   body { font-size: 16px; }
   :root { --header-h: 72px; }
   .grid-2, .grid-3, .grid-4, .steps, .steps--3, .feature-grid, .sitemap-grid { grid-template-columns: 1fr; }
+  .video-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .mobile-call-bar { display: flex; }
   body { padding-bottom: 74px; }
-  .chat-widget { bottom: 88px; right: 16px; }
-  .chat-toggle { width: 54px; height: 54px; }
+  /* lift the LeadConnector bubble clear of the fixed call bar */
+  chat-widget { --lc-widget-bottom: 84px; bottom: 84px; }
   .btn { width: 100%; }
   .btn-row { flex-direction: column; }
   .mobile-call-bar .btn, .carousel__btn { width: auto; }
@@ -727,6 +732,6 @@ body.nav-open { overflow: hidden; }
 }
 
 @media print {
-  .site-header, .mobile-nav, .chat-widget, .mobile-call-bar, .cta-band, .map-embed { display: none !important; }
+  .site-header, .mobile-nav, chat-widget, .mobile-call-bar, .cta-band, .map-embed { display: none !important; }
   body { padding-bottom: 0; font-size: 12pt; color: #000; }
 }

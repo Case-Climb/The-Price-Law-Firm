@@ -47,8 +47,6 @@
     if (e.key === 'Escape') {
       closeItems(null);
       if (body.classList.contains('nav-open')) toggleNav(false);
-      var cw = doc.querySelector('.chat-widget.open');
-      if (cw) cw.classList.remove('open');
     }
   });
 
@@ -110,55 +108,6 @@
     if (next) next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
   });
 
-  /* ------------------------------------------------------- chat widget */
-  var chat = doc.querySelector('.chat-widget');
-  if (chat) {
-    var toggle = chat.querySelector('.chat-toggle');
-    toggle.addEventListener('click', function () {
-      var open = chat.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', String(open));
-      if (open) { var f = chat.querySelector('input, textarea'); if (f) f.focus(); }
-    });
-    doc.addEventListener('click', function (e) {
-      if (chat.classList.contains('open') && !chat.contains(e.target)) {
-        chat.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
-
-  /* ------------------------------------------------------------- forms */
-  /* Until a submission endpoint is configured via data-endpoint, the forms
-     hand off to the user's mail client rather than silently failing. */
-  Array.prototype.forEach.call(doc.querySelectorAll('form[data-contact-form]'), function (form) {
-    form.addEventListener('submit', function (e) {
-      var endpoint = form.getAttribute('data-endpoint');
-      if (endpoint) return; // real endpoint configured — let it post normally
-      e.preventDefault();
-      var get = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
-      var name = get('name'), phone = get('phone'), email = get('email'), message = get('message');
-      if (!name || !phone) {
-        setStatus(form, 'Please add your name and a phone number so we can reach you.', true);
-        return;
-      }
-      var subject = encodeURIComponent('Website consultation request — ' + name);
-      var lines = ['Name: ' + name, 'Phone: ' + phone];
-      if (email) lines.push('Email: ' + email);
-      lines.push('', message || '(No message provided)');
-      var href = 'mailto:' + (form.getAttribute('data-mailto') || '') + '?subject=' + subject + '&body=' + encodeURIComponent(lines.join('\n'));
-      window.location.href = href;
-      setStatus(form, 'Opening your email app to send this to Bill Price. Prefer to talk now? Call ' + (form.getAttribute('data-phone') || '') + '.', false);
-    });
-  });
-
-  function setStatus(form, text, isError) {
-    var el = form.querySelector('.form-status');
-    if (!el) { el = doc.createElement('p'); el.className = 'form-status form-note'; form.appendChild(el); }
-    el.textContent = text;
-    el.style.color = isError ? '#B45309' : '';
-    el.setAttribute('role', 'status');
-  }
-
   /* -------------------------------------------------- blog category filter */
   var filters = doc.querySelectorAll('.filter-btn');
   if (filters.length) {
@@ -218,5 +167,24 @@
   /* ------------------------------------------------- current year in footer */
   Array.prototype.forEach.call(doc.querySelectorAll('[data-year]'), function (el) {
     el.textContent = String(new Date().getFullYear());
+  });
+
+  /* ------------------------------------------------------------ videos */
+  /* Swap the thumbnail for a real embed only when asked, so no YouTube
+     script or cookie is loaded for visitors who never press play. */
+  Array.prototype.forEach.call(doc.querySelectorAll('.video-facade'), function (facade) {
+    facade.addEventListener('click', function () {
+      var id = facade.getAttribute('data-video-id');
+      if (!id) return;
+      var frame = doc.createElement('iframe');
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) +
+        '?autoplay=1&rel=0&playsinline=1&modestbranding=1';
+      frame.title = facade.getAttribute('data-video-title') || 'Video';
+      frame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      frame.setAttribute('allowfullscreen', '');
+      frame.setAttribute('loading', 'lazy');
+      facade.parentNode.replaceChild(frame, facade);
+      frame.focus();
+    });
   });
 })();
