@@ -37,10 +37,12 @@ scenes, not those specific towns. Replace them with genuine local and firm
 photography when it becomes available — real photos of the actual office and
 attorney outperform stock on a local service site.
 
-**`bill-price.jpg` is not stock** — it is the client's own photograph of Bill
-Price in front of the firm's signage, supplied directly and used in both
-headshot slots (`/` and `/about`). No stock photo of an unrelated person was
-ever used for him.
+**`bill-price.jpg` and `bill-price-office.jpg` are not stock** — both are the
+client's own photographs of Bill Price, supplied directly. `bill-price.jpg` is
+a studio-backdrop headshot used on `/`; `bill-price-office.jpg` shows him at the
+firm signage and is used on `/about`. Both were resized to 900px and had all
+EXIF metadata stripped (the originals carried camera and location data). No
+stock photo of an unrelated person was ever used for him.
 
 Note its source resolution is only **600×599px**, which upscales and softens on
 wide or high-DPI screens. Request the original full-resolution file and replace

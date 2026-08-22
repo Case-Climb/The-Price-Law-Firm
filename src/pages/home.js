@@ -83,7 +83,7 @@ ${hero({
   <div class="container">
     <div class="split split--media-right">
       <div class="split__media is-headshot reveal" style="min-height:420px">
-        ${photo('bill-price', 'Attorney Bill Price at The Price Law Firm office in Panama City, Florida',
+        ${photo('bill-price', 'Attorney Bill Price, personal injury lawyer at The Price Law Firm in Panama City, Florida',
           'Headshot of Bill Price (drop bill-price.jpg into assets/img/)', { icon: 'user' })}
         <div class="stat-badge">
           <div class="n">${unconfirmed.yearsInPractice ? esc(unconfirmed.yearsInPractice) + '+' : '<span class="ph" data-confirm>##</span>'}</div>

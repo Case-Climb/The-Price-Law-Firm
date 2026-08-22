@@ -44,8 +44,8 @@ ${hero({
   <div class="container">
     <div class="split">
       <div class="split__media is-headshot reveal" style="min-height:480px">
-        ${photo('bill-price', 'Attorney Bill Price standing beside The Price Law Firm sign at the Panama City office',
-          'Professional headshot — Bill Price (drop bill-price.jpg into assets/img/)', { icon: 'user' })}
+        ${photo('bill-price-office', 'Attorney Bill Price seated beneath The Price Law Firm sign at the Panama City office',
+          'Professional headshot — Bill Price (drop bill-price-office.jpg into assets/img/)', { icon: 'user' })}
       </div>
       <div class="reveal">
         <span class="eyebrow">Attorney Profile</span>
