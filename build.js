@@ -33,6 +33,7 @@ add('/about', (await import('./src/pages/about.js')).default, { priority: 0.8 })
 add('/personal-injury', (await import('./src/pages/personal-injury.js')).default, { priority: 0.9, changefreq: 'weekly' });
 add('/property-insurance-claims', (await import('./src/pages/property-insurance-claims.js')).default, { priority: 0.85 });
 add('/blog', (await import('./src/pages/blog.js')).default, { priority: 0.7, changefreq: 'weekly' });
+add('/videos', (await import('./src/pages/videos.js')).default, { priority: 0.7, changefreq: 'monthly' });
 add('/contact', (await import('./src/pages/contact.js')).default, { priority: 0.9 });
 add('/disclaimer', (await import('./src/pages/disclaimer.js')).default, { priority: 0.3, changefreq: 'yearly' });
 add('/privacy-policy', (await import('./src/pages/privacy-policy.js')).default, { priority: 0.3, changefreq: 'yearly' });
