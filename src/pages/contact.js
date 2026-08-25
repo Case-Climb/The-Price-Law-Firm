@@ -2,7 +2,7 @@ import { site, unconfirmed, hours, practiceAreas } from '../data/site.js';
 import { page } from '../lib/layout.js';
 import { icon } from '../lib/icons.js';
 import {
-  hero, sectionHead, contactForm, trustPills, breadcrumbSchema, esc, ph,
+  hero, sectionHead, contactForm, trustPills, breadcrumbSchema, directionsUrl, esc, ph,
 } from '../lib/components.js';
 
 const trail = [{ name: 'Home', url: '/' }, { name: 'Contact', url: '/contact' }];
@@ -43,7 +43,7 @@ ${hero({
           </div></li>
           <li><span class="ico">${icon('pin')}</span><div>
             <div class="lbl">Office</div>
-            <div class="val">${esc(site.address.street)}<br>${esc(site.address.city)}, ${esc(site.address.region)} ${esc(site.address.postal)}</div>
+            <div class="val"><a href="${directionsUrl()}" target="_blank" rel="noopener">${esc(site.address.street)}<br>${esc(site.address.city)}, ${esc(site.address.region)} ${esc(site.address.postal)}</a></div>
           </div></li>
           <li><span class="ico">${icon('clock')}</span><div>
             <div class="lbl">Hours</div>
@@ -57,6 +57,7 @@ ${hero({
 
         <div class="btn-row" style="margin-top:2rem">
           <a class="btn btn--primary" href="${site.phoneHref}">${icon('phone')} Call ${esc(site.phone)}</a>
+          <a class="btn btn--outline" href="${directionsUrl()}" target="_blank" rel="noopener">${icon('pin')} Get Directions</a>
         </div>
       </div>
 
@@ -73,6 +74,9 @@ ${hero({
     ${sectionHead({ eyebrow: 'Find Us', title: 'Our Panama City Office' })}
     <div class="map-embed reveal">
       <iframe src="${mapSrc}" title="Map showing ${esc(site.brand)} at ${esc(site.addressLine)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+    <div class="btn-row center" style="margin-top:1.5rem">
+      <a class="btn btn--primary" href="${directionsUrl()}" target="_blank" rel="noopener">${icon('pin')} Get Directions to Our Office</a>
     </div>
     <div class="center" style="margin-top:2.5rem">${trustPills({ center: true })}</div>
   </div>

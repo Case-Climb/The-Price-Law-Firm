@@ -19,14 +19,17 @@ export const site = {
     regionName: 'Florida',
     postal: '32405',
     country: 'US',
-    // Approximate coordinates for 2633 W 23rd St, Panama City FL.
-    lat: 30.1897,
-    lng: -85.6828,
+    // Verified against OpenStreetMap/Nominatim: these reverse-geocode to
+    // "2633 West 23rd Street, Panama City, Bay County, Florida, 32405".
+    // The previous values were ~1 mile east and resolved only to the street.
+    lat: 30.1892757,
+    lng: -85.6990291,
   },
   get addressLine() {
     return `${this.address.street}, ${this.address.city}, ${this.address.region} ${this.address.postal}`;
   },
-  mapQuery: '2633 W. 23rd St., Panama City, FL 32405',
+  // Plain street address (no suite) — the most reliable form for geocoding.
+  mapQuery: '2633 W 23rd St, Panama City, FL 32405',
   ga4Id: 'G-XXXXXXXXXX', // placeholder — swap for the real GA4 measurement ID
   // billpricepa.com: Bill Price practices in "Alabama and Florida courts".
   jurisdictions: ['Florida', 'Alabama'],

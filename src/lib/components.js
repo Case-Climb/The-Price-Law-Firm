@@ -8,6 +8,10 @@ import {
   additionalCities, activeBadges, testimonials,
 } from '../data/site.js';
 
+/** Opens turn-by-turn directions to the office in Google Maps. */
+export const directionsUrl = () =>
+  `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(site.mapQuery)}`;
+
 export const esc = (s = '') =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -156,7 +160,7 @@ export function footer() {
         <ul class="footer-contact">
           <li>${icon('phone')}<a href="${site.phoneHref}">${esc(site.phone)}</a></li>
           <li>${icon('mail')}<a href="mailto:${site.email}">${esc(site.email)}</a></li>
-          <li>${icon('pin')}<span>${esc(site.address.street)}<br>${esc(site.address.city)}, ${esc(site.address.region)} ${esc(site.address.postal)}</span></li>
+          <li>${icon('pin')}<a href="${directionsUrl()}" target="_blank" rel="noopener">${esc(site.address.street)}<br>${esc(site.address.city)}, ${esc(site.address.region)} ${esc(site.address.postal)}</a></li>
         </ul>
       </div>
       <div>
@@ -500,13 +504,20 @@ export function findUs({ gray = false, note } = {}) {
       ${sectionHead({ eyebrow: 'Find Us', title: 'Visit Our Panama City Office', text: note || 'We are on W. 23rd Street in Panama City, and we serve clients throughout the Florida Panhandle.' })}
       <div class="find-us">
         <ul class="info-list reveal">
-          <li><span class="ico">${icon('pin')}</span><div><div class="lbl">Office</div><div class="val">${esc(site.address.street)}<br>${esc(site.address.city)}, ${esc(site.address.region)} ${esc(site.address.postal)}</div></div></li>
+          <li><span class="ico">${icon('pin')}</span><div><div class="lbl">Office</div><div class="val">
+            <a href="${directionsUrl()}" target="_blank" rel="noopener">${esc(site.address.street)}<br>${esc(site.address.city)}, ${esc(site.address.region)} ${esc(site.address.postal)}</a>
+          </div></div></li>
           <li><span class="ico">${icon('phone')}</span><div><div class="lbl">Phone</div><div class="val"><a href="${site.phoneHref}">${esc(site.phone)}</a></div></div></li>
           <li><span class="ico">${icon('mail')}</span><div><div class="lbl">Email</div><div class="val"><a href="mailto:${site.email}">${esc(site.email)}</a></div></div></li>
           <li><span class="ico">${icon('clock')}</span><div><div class="lbl">Hours</div><div class="val">${hoursVal}</div></div></li>
         </ul>
-        <div class="map-embed reveal">
-          <iframe src="${mapSrc}" title="Map showing ${esc(site.brand)} at ${esc(site.addressLine)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <div class="reveal">
+          <div class="map-embed">
+            <iframe src="${mapSrc}" title="Map showing ${esc(site.brand)} at ${esc(site.addressLine)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          </div>
+          <div class="btn-row" style="margin-top:1.25rem">
+            <a class="btn btn--primary" href="${directionsUrl()}" target="_blank" rel="noopener">${icon('pin')} Get Directions</a>
+          </div>
         </div>
       </div>
     </div>
