@@ -13,7 +13,7 @@ export const site = {
   email: 'bill@thepricelawfirm.com',
   facebook: 'https://www.facebook.com/BillPricePA/',
   address: {
-    street: '2633 W. 23rd Street, Suite A',
+    street: '2633 W. 23rd St.',
     city: 'Panama City',
     region: 'FL',
     regionName: 'Florida',
@@ -28,8 +28,11 @@ export const site = {
   get addressLine() {
     return `${this.address.street}, ${this.address.city}, ${this.address.region} ${this.address.postal}`;
   },
-  // Plain street address (no suite) — the most reliable form for geocoding.
-  mapQuery: '2633 W 23rd St, Panama City, FL 32405',
+  // Derived from addressLine so the map pin, the directions link and the
+  // displayed NAP can never drift apart. Verified to geocode to the building.
+  get mapQuery() {
+    return this.addressLine;
+  },
   ga4Id: 'G-XXXXXXXXXX', // placeholder — swap for the real GA4 measurement ID
   // billpricepa.com: Bill Price practices in "Alabama and Florida courts".
   jurisdictions: ['Florida', 'Alabama'],
