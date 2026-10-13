@@ -320,6 +320,7 @@ export const caseResults = [
   { amount: '$100 Million', category: 'Negligence', desc: 'In settlements against a negligent corporation for multiple injuries.' },
   { amount: '$50 Million', category: 'Property Insurance', desc: 'Recovered in disputed property insurance coverage.' },
   { amount: '$11 Million', category: 'Trucking', desc: 'Settlement against a trucking company after a collision left the client paralyzed.' },
+  { amount: '$7 Million', category: 'Product Liability', desc: 'Settlement in a product liability action arising from a negligently designed product.' },
   { amount: '$1.25 Million', category: 'Product Liability', desc: 'Settlement against a restaurant and subcontractor after a propane tank discharge caused severe burns.' },
   { amount: '$900,000', category: 'Trucking', desc: 'Settlement against a trucking company for a serious back injury requiring multiple surgeries.' },
   { amount: '$470,000', category: 'Trucking', desc: 'Settlement against a trucking company for a traumatic amputation of two toes.' },
