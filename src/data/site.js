@@ -36,7 +36,7 @@ export const site = {
   ga4Id: 'G-XXXXXXXXXX', // placeholder — swap for the real GA4 measurement ID
   // billpricepa.com: Bill Price practices in "Alabama and Florida courts".
   jurisdictions: ['Florida', 'Alabama'],
-  experiencePhrase: 'over a decade of trial experience',
+  experiencePhrase: 'over two decades of trial experience',
   legacySite: 'https://billpricepa.com',
 };
 
@@ -61,8 +61,8 @@ export const unconfirmed = {
   googleReviewCount: null,
   googleRating: null,
   googleProfileUrl: null,
-  // billpricepa.com: "over a decade of trial experience".
-  yearsInPractice: 10,
+  // Client-confirmed: over two decades of trial experience.
+  yearsInPractice: 20,
   // Law school, bar admission year and honours are still NOT published
   // anywhere on billpricepa.com, so they remain unconfirmed.
   attorneyBio: false,
